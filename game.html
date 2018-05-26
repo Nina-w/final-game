@@ -10,9 +10,24 @@
 			body {
 				overflow: hidden;
 			}
-			canvas {
-				background: url('https://ae01.alicdn.com/kf/HTB1_MD5QVXXXXa4XXXXq6xXFXXXZ/Festical-XT-3828.jpg_640x640.jpg') no-repeat center center fixed;
+			#background {
+				background: url('https://images.designtrends.com/wp-content/uploads/2015/11/30150156/Plain-Sky-Blue-Background11.jpg') no-repeat center center fixed;
 				background-size: 100vw 100vh;
+			}
+			#artcontainer {
+				background:transparent;
+				position: fixed;
+				top:20px;
+				left:20px;
+				width:1000px;
+				height:1000px;
+			}
+
+			#art {
+				background:transparent;
+				position: absolute;
+				width:1000px;
+				height:1000px;
 			}
 
 			#chat {
@@ -59,7 +74,7 @@
 		</style>
 	</head>
 	<body>
-		<canvas></canvas>
+		<canvas id = 'background'></canvas>
 		<div id='chat'>
 			<ul></ul>
 			<div>
@@ -72,9 +87,9 @@
     <script src='/js/socket.io.js'></script>
 		<script>
       var user = '{{USER}}';
-      var socket = io();
+      var socket = io({query: {user: user}});
 
-			var $canvas = document.querySelector('canvas');
+			var $canvas = document.querySelector('#background');
 			$canvas.width = window.screen.width;
 			$canvas.height = window.screen.height;
 
@@ -96,5 +111,81 @@
         $ul.appendChild($li);
       });
 		</script>
+    <script src='/js/game.js'></script>
+
+		<style>
+	        .circle {
+	            box-sizing:border-box;
+	            border-radius:50%;
+	            position:absolute;
+	        }
+
+
+	        .s1 {
+	            width:512px;
+	            height:512px;
+	            z-index:512;
+	        }
+
+	        .s2 {
+	            width:256px;
+	            height:256px;
+	            z-index:256;
+	        }
+
+	        .s4 {
+	            width:128px;
+	            height:128px;
+	            z-index:128;
+	        }
+
+	        .s8 {
+	            width:64px;
+	            height:64px;
+	            z-index:64;
+	        }
+
+	        .s16 {
+	            width:32px;
+	            height:32px;
+	            z-index:32;
+	        }
+
+	        .s32 {
+	            width:16px;
+	            height:16px;
+	            z-index:16;
+	        }
+
+	        .s64 {
+	            width:8px;
+	            height:8px;
+	            z-index:8;
+	        }
+
+	        .s128 {
+	            width:4px;
+	            height:4px;
+	            z-index:4;
+	        }
+
+	        .s256 {
+	            width:2px;
+	            height:2px;
+	            z-index:2;
+	        }
+
+	        .s512 {
+	            width:1px;
+	            height:1px;
+	            z-index:1;
+	        }
+	    </style>
+	    <div id='artcontainer'>
+				<canvas id='art'>
+				</canvas>
+			</div>
+	    <div id='circles'></div>
+	    <script src='js/art.js'></script>
 	</body>
 </html>

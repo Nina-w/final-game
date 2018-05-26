@@ -31,13 +31,35 @@ var port =  process.env.PORT ? parseInt(process.env.PORT) : 8080;
 var dbAddress = process.env.MONGODB_URI || 'mongodb://127.0.0.1/game';
 
 function addSockets() {
+
+	var players = {};
+
 	io.on('connection', (socket) => {
-		//io.emit('new message', 'user connected')
+		var user = socket.handshake.query.user;
+		players[user] = {
+			x: 0, y: 0
+		};
+
+		io.emit('playerUpdate', players);
+		io.emit('newMessage', {user: user,message: 'Entered the game'});
 		socket.on('disconnect', () => {
-		//io.emit('new message', 'user disconnect');
+			delete players[user];
+			io.emit('newMessage', {user: user, message: 'Left the game'});
+			io.emit('playerUpdate', players)
 		});
 		socket.on('message', (message) => {
 			io.emit('newMessage', message);
+		});
+		socket.on('playerUpdate', (player) => {
+			players[user] = player;
+			io.emit('playerUpdate', players);
+		})
+		socket.on('endGame', (countData) => {
+			players[countData.user].count = countData.count;
+			var winner;
+			Object.keys(players).forEach(function(player) {
+				
+			})
 		})
 	});
 }
@@ -106,6 +128,21 @@ function startServer() {
 				})
 			})(req, res, next);
 
+	app.get('/picture/:username', (req, res, next) => {
+		if(!req.user) return res.send('YOU ARE NOT LOGGED IN');
+		usermodel.findOne({userName: req.params.username}, function(err, user) {
+			if(err) return res.send(err);
+			try {
+				var imageType = user.avatar.match(/^data:image\/([a-zA-Z0-9]*);/)[1];
+				var base64Data = user.avatar.split(',')[1];
+				var binaryData = new Buffer(base64Data, 'base64');
+				res.contentType('image/' + imageType);
+				res.end(binaryData, 'binary');
+			} catch(ex) {
+				res.send(ex);
+			}
+		})
+	})
 
 		});
 
