@@ -57,8 +57,20 @@ function addSockets() {
 		socket.on('endGame', (countData) => {
 			players[countData.user].count = countData.count;
 			var winner;
+			var winnerCount = Infinity;
+			var waitingForAllPlayers = false;
 			Object.keys(players).forEach(function(player) {
-				
+				if (!players[player].count)
+					return waitingForAllPlayers = true;
+				if (winnerCount > players[player].count) {
+					winner = player;
+					winnerCount = players[player].count;
+				}
+			})
+			if (waitingForAllPlayers)
+				return
+			io.emit('winner', {
+				winner:winner, count:winnerCount
 			})
 		})
 	});

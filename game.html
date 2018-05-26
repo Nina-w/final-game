@@ -110,6 +110,12 @@
         $li.innerHTML = `<strong>${message.user}</strong> ${message.message}`;
         $ul.appendChild($li);
       });
+			socket.on('winner', (WinnerCount) => {
+				var $ul = document.querySelector('#chat ul')
+        var $li = document.createElement('li');
+        $li.innerHTML = `<strong>${WinnerCount.winner}</strong> ${WinnerCount.count}`;
+        $ul.appendChild($li);
+			})
 		</script>
     <script src='/js/game.js'></script>
 

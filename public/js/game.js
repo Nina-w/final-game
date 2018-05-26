@@ -1,4 +1,4 @@
-var timer = 200;
+var timer = 10;
 var context = $canvas.getContext('2d');
 var gamePieces = {};
 var timerInterval = setInterval(function() {
@@ -90,7 +90,7 @@ function updatePlayerPosition(e) {
   socket.emit('playerUpdate', {x: gamePiece.x, y: gamePiece.y});
 }
 
-function cirlceCount() {
+function circleCount() {
   var count = document.querySelectorAll('.circle').length;
   socket.emit('endGame', {count: count, user: user});
 

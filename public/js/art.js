@@ -5,6 +5,7 @@ var imagePath = imageArray [parseInt(Math.random()*6)]
 var canvas = document.querySelector('#art');
 var contextArt = canvas.getContext('2d');
 var circleDiv = document.querySelector('#circles');
+var totalCircle = 0;
 
 function addImage() {
     image.src = imagePath;
@@ -25,6 +26,7 @@ function getCircles() {
         , 1: circlizeImage(1)
     }
     addCirclesToBody();
+    totalCirlce = document.querySelectorAll('.circle').length;
     document.querySelector ('#art').style.display = 'none';
 }
 
