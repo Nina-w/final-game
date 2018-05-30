@@ -1,4 +1,4 @@
-var timer = 100;
+var timer = 60;
 var context = $canvas.getContext('2d');
 var gamePieces = {};
 var timerInterval = setInterval(function() {
